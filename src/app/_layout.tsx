@@ -12,8 +12,9 @@ export default function RootLayout() {
           contentStyle: { backgroundColor: "#f5f5f7" },
         }}
       >
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ title: 'Pokemons' }} />
         <Stack.Screen name="compare" options={{ title: 'Comparar' }} />
+        <Stack.Screen name="pokemon/[name]" options={{ title: 'Detalhes' }} />
       </Stack>
     </SafeAreaProvider>
   );

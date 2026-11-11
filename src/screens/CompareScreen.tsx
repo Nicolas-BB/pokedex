@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import { PokemonPanel } from "@/components/PokemonPanel";
 import { PokemonPicker } from "@/components/PokemonPicker";
+import { fetchPokemon, fetchPokemonList } from "@/services/pokeapi";
 import { Pokemon, PokemonList } from "@/types/pokemon";
 
 export function CompareScreen() {
@@ -13,9 +14,7 @@ export function CompareScreen() {
 
     async function getList() {
         try {
-            const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151&offset=0')
-            const data = await res.json()
-            setList(data.results)
+            setList(await fetchPokemonList())
         } catch (e) {
             setError('Não foi possível buscar a lista de pokemons')
         }
@@ -38,10 +37,7 @@ export function CompareScreen() {
 
     async function getPokemonInfo(name: string): Promise<Pokemon | null> {
         try {
-            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
-            const data = await res.json()
-
-            return data as Pokemon
+            return await fetchPokemon(name)
         } catch (e) {
             setError('Não foi possível buscar o Pokemon')
 

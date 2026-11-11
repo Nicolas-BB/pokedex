@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { ScrollView, StyleSheet, Text, View, Pressable } from "react-native"
 
 import { Card } from "@/components/Card"
+import { fetchPokemonList } from "@/services/pokeapi"
 import { PokemonList } from "@/types/pokemon"
 import { router } from "expo-router"
 
@@ -11,9 +12,7 @@ export function ListScreen() {
 
     async function getList() {
         try {
-            const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151&offset=0')
-            const data = await res.json()
-            setList(data.results)
+            setList(await fetchPokemonList())
         } catch (e) {
             setError('Não foi possível buscar a lista de pokemons')
         }
@@ -38,7 +37,12 @@ export function ListScreen() {
                         <Text style={styles.errorText}>{error}</Text>
                     </View> :
                     list.map((i) => (
-                        <Card key={i.name} name={i.name} url={i.url} />
+                        <Card
+                            key={i.name}
+                            name={i.name}
+                            url={i.url}
+                            onPress={() => router.push({ pathname: '/pokemon/[name]', params: { name: i.name } })}
+                        />
                     ))}
             </ScrollView>
         </>
@@ -53,7 +57,7 @@ const styles = StyleSheet.create({
     content: {
         gap: 10,
         paddingHorizontal: 16,
-        paddingTop: 56,
+        paddingTop: 24,
         paddingBottom: 86,
     },
     errorBox: {

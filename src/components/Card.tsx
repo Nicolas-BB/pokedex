@@ -1,21 +1,22 @@
 import { Image } from "expo-image"
-import { StyleSheet, Text, View } from "react-native"
+import { Pressable, StyleSheet, Text } from "react-native"
 
 type Props = {
     name: string
     url: string
+    onPress: () => void
 }
 
-export function Card({ name, url }: Props) {
+export function Card({ name, url, onPress }: Props) {
     const id = url.split("/").filter(Boolean).pop()
     const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
 
     return (
-        <View style={styles.card}>
+        <Pressable style={({ pressed }) => [styles.card, pressed && styles.cardPressed]} onPress={onPress}>
             <Image source={sprite} style={styles.image} />
             <Text style={styles.id}>#{id}</Text>
             <Text style={styles.name}>{name}</Text>
-        </View>
+        </Pressable>
     )
 }
 
@@ -28,6 +29,9 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: "#fff",
         boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08)",
+    },
+    cardPressed: {
+        backgroundColor: "#ffe3dc",
     },
     image: {
         width: 64,
