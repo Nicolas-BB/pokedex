@@ -8,11 +8,11 @@ type Props = {
 
 export function Card({ name, url }: Props) {
     const id = url.split("/").filter(Boolean).pop()
-    const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+    const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
 
     return (
         <View style={styles.card}>
-            <Image source={image} style={styles.image} />
+            <Image source={sprite} style={styles.image} />
             <Text style={styles.id}>#{id}</Text>
             <Text style={styles.name}>{name}</Text>
         </View>
@@ -25,19 +25,25 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 12,
         padding: 12,
-        borderRadius: 12,
-        backgroundColor: "#f2f2f2",
+        borderRadius: 16,
+        backgroundColor: "#fff",
+        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08)",
     },
     image: {
         width: 64,
         height: 64,
+        borderRadius: 32,
+        backgroundColor: "#f5f5f7",
     },
     id: {
-        color: "#888",
+        fontSize: 14,
+        fontWeight: "600",
+        color: "#999",
     },
     name: {
         fontSize: 18,
         fontWeight: "bold",
         textTransform: "capitalize",
+        color: "#222",
     },
 })
